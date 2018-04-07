@@ -18,13 +18,6 @@ public class DemoApplication {
     @RequestMapping("/")
     @ResponseBody
     String home() {
-        return "Hello World!";
-    }
-
-    public static void main(String[] args) {
-
-        SpringApplication.run(DemoApplication.class, args);
-
         try {
             //   jdbc:postgresql://host:port/database
 
@@ -53,5 +46,11 @@ public class DemoApplication {
         } catch (Exception e) {
             System.out.println(e);
         }
+        return "Hello World!";
+    }
+
+    public static void main(String[] args) {
+
+        SpringApplication.run(DemoApplication.class, args);
     }
 }
