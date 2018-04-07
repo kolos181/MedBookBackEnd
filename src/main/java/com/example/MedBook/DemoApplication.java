@@ -45,7 +45,7 @@ public class DemoApplication {
 //                    "state text," +
 //                    "address text)");
 //
-            stmt.executeQuery("CREATE SEQUENCE hibernate_sequence START 1;");
+            stmt.executeQuery("CREATE SEQUENCE hibernate_sequence START 1");
 
 
         } catch (Exception e) {
