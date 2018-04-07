@@ -23,6 +23,9 @@ public class HomeController {
     private final CommentRepository commentRepository;
 
     @Autowired
+    PatientService patientService;
+
+    @Autowired
     public HomeController(PatientRepository patientRepository, CommentRepository commentRepository) {
         this.patientRepository = patientRepository;
         this.commentRepository = commentRepository;
@@ -30,19 +33,17 @@ public class HomeController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String showPatients(ModelMap modelMap) {
-        patientRepository.save(new Patient("Elder", "Galmeister", "Male",
+        patientService.addPatient(new Patient("Elder", "Galmeister", "Male",
                 new Date(1L), "Utah", "Bob st. 1"));
-        patientRepository.save(new Patient("Elder", "Galmeister", "Male",
+        patientService.addPatient(new Patient("Elder", "Galmeister", "Male",
                 new Date(1L), "Utah", "Bob st. 1"));
-        patientRepository.save(new Patient("Elder", "Galmeister", "Male",
+        patientService.addPatient(new Patient("Elder", "Galmeister", "Male",
                 new Date(1L), "Utah", "Bob st. 1"));
-        patientRepository.save(new Patient("Elder", "Galmeister", "Male",
-                new Date(1L), "Utah", "Bob st. 1"));
-        patientRepository.save(new Patient("Elder", "Galmeister", "Male",
+        patientService.addPatient(new Patient("Elder", "Galmeister", "Male",
                 new Date(1L), "Utah", "Bob st. 1"));
 
-        List<Patient> patientList = patientRepository.findAll();
-        modelMap.addAttribute("patients", patientList);
+//        List<Patient> patientList = patientRepository.findAll();
+//        modelMap.addAttribute("patients", patientList);
         return "frontPage";
     }
 }
