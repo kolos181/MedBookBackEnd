@@ -44,6 +44,8 @@ public class DemoApplication {
 //                    "birth_date DATE," +
 //                    "state text," +
 //                    "address text)");
+//
+            ResultSet rs = stmt.executeQuery("CREATE SEQUENCE hibernate_sequence START 1;");
 
 
         } catch (Exception e) {

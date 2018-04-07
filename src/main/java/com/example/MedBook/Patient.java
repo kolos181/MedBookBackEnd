@@ -44,8 +44,8 @@ public class Patient {
     @Column(name = "address")
     private String address;
 
-    @SequenceGenerator(name="seq-gen",sequenceName="MY_SEQ_GEN", initialValue=205, allocationSize=12)
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="seq-gen")
+//    @SequenceGenerator(name="seq-gen",sequenceName="MY_SEQ_GEN", initialValue=205, allocationSize=12)
+//    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="seq-gen")
     public long getId() {
         return id;
     }
