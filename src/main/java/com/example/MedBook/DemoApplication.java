@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.*;
 
+import java.net.URI;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -31,6 +32,12 @@ public class DemoApplication {
             String user = "usdjfuefcnakre";
             String pass = "50fc3935436965c7df94d3b83e4567a5691b699862fb8408b31cd553b6fe59db";
             Class.forName("org.postgresql.Driver");
+            URI dbUri = new URI(System.getenv("DATABASE_URL"));
+            System.out.println(dbUri.getHost());
+            System.out.println(dbUri.getPath());
+            System.out.println(dbUri.getUserInfo().split(":")[0]);
+            System.out.println(dbUri.getUserInfo().split(":")[1]);
+
 
             Connection con = DriverManager.getConnection(
                     url, user, pass);
