@@ -12,6 +12,15 @@ import java.util.Date;
 
 public class Patient {
 
+    public Patient(String firstName, String lastName, String sex, Date date, String state, String address) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.sex = sex;
+        this.date = date;
+        this.state = state;
+        this.address = address;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")

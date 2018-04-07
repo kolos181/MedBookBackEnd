@@ -6,6 +6,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.security.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,8 +28,19 @@ public class HomeController {
         this.commentRepository = commentRepository;
     }
 
-    @RequestMapping(method= RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String showPatients(ModelMap modelMap) {
+        patientRepository.save(new Patient("Elder", "Galmeister", "Male",
+                new Date(1L), "Utah", "Bob st. 1"));
+        patientRepository.save(new Patient("Elder", "Galmeister", "Male",
+                new Date(1L), "Utah", "Bob st. 1"));
+        patientRepository.save(new Patient("Elder", "Galmeister", "Male",
+                new Date(1L), "Utah", "Bob st. 1"));
+        patientRepository.save(new Patient("Elder", "Galmeister", "Male",
+                new Date(1L), "Utah", "Bob st. 1"));
+        patientRepository.save(new Patient("Elder", "Galmeister", "Male",
+                new Date(1L), "Utah", "Bob st. 1"));
+
         List<Patient> patientList = patientRepository.findAll();
         modelMap.addAttribute("patients", patientList);
         return "frontPage";
