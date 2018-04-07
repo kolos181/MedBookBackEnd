@@ -17,8 +17,13 @@ public class DatabaseConfig {
 
     @Bean
     @Primary
-    @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource() {
-        return DataSourceBuilder.create().build();
+        return DataSourceBuilder
+                .create()
+                .username("usdjfuefcnakre")
+                .password("50fc3935436965c7df94d3b83e4567a5691b699862fb8408b31cd553b6fe59db")
+                .url("jdbc:postgresql://ec2-174-129-206-173.compute-1.amazonaws.com:5432/d32n9851o7g2up")
+                .driverClassName("org.postgresql.Driver")
+                .build();
     }
 }
