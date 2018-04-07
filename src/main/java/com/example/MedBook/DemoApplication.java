@@ -18,25 +18,25 @@ public class DemoApplication {
     @RequestMapping("/")
     @ResponseBody
     String home() {
-//        try {
-//
-//            Class.forName("org.postgresql.Driver");
-//            URI dbUri = new URI(System.getenv("DATABASE_URL"));
-//
-//            String url = "jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath();
-//
-//            String user = dbUri.getUserInfo().split(":")[0];
-//            String pass = dbUri.getUserInfo().split(":")[1];
-//
-//            System.out.println(dbUri.getHost());
-//            System.out.println(dbUri.getPath());
-//            System.out.println(dbUri.getUserInfo().split(":")[0]);
-//            System.out.println(dbUri.getUserInfo().split(":")[1]);
-//
-//
-//            Connection con = DriverManager.getConnection(
-//                    url, user, pass);
-//            Statement stmt = con.createStatement();
+        try {
+
+            Class.forName("org.postgresql.Driver");
+            URI dbUri = new URI(System.getenv("DATABASE_URL"));
+
+            String url = "jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath();
+
+            String user = dbUri.getUserInfo().split(":")[0];
+            String pass = dbUri.getUserInfo().split(":")[1];
+
+            System.out.println(dbUri.getHost());
+            System.out.println(dbUri.getPath());
+            System.out.println(dbUri.getUserInfo().split(":")[0]);
+            System.out.println(dbUri.getUserInfo().split(":")[1]);
+
+
+            Connection con = DriverManager.getConnection(
+                    url, user, pass);
+            Statement stmt = con.createStatement();
 //            ResultSet rs = stmt.executeQuery("CREATE TABLE IF NOT EXISTS patients (ID SERIAL PRIMARY KEY, " +
 //                    "first_name text NOT NULL, " +
 //                    "last_name text NOT NULL," +
@@ -44,10 +44,12 @@ public class DemoApplication {
 //                    "birth_date DATE," +
 //                    "state text," +
 //                    "address text)");
-//
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
+
+            ResultSet rs = stmt.executeQuery("ALTER TABLE patients ALTER COLUMN id TYPE serial;");
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return "Hello World!";
     }
 
