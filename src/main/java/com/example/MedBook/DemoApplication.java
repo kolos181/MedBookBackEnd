@@ -45,7 +45,6 @@ public class DemoApplication {
 //                    "state text," +
 //                    "address text)");
 
-            ResultSet rs = stmt.executeQuery("ALTER TABLE patients ALTER COLUMN id TYPE serial;");
 
         } catch (Exception e) {
             System.out.println(e);
