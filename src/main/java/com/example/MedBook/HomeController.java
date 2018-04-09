@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * Created by uuuu on 4/4/2018.
@@ -26,9 +27,14 @@ public class HomeController {
     }
 
     @GetMapping("/addPatient")
-    public Patient showPatients() {
+    public Patient addPatient() {
         return patientRepository.save(new Patient("Elder", "Galmeister", "Male",
                 new Date(1L), "Utah", "Bob st. 1"));
 
+    }
+
+    @GetMapping("/getPatient")
+    public Optional<Patient> getPatient() {
+        return patientRepository.findById(1L);
     }
 }
