@@ -3,7 +3,6 @@ package com.example.MedBook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -25,9 +24,8 @@ public class HomeController {
     }
 
     @PostMapping("/addPatient")
-    public Patient addPatient() {
-        return patientRepository.save(new Patient("Elder", "Galmeister", "Male",
-                new Date(1L), "Utah", "Bob st. 1"));
+    public Patient addPatient(@RequestBody Patient patient) {
+        return patientRepository.save(patient);
 
     }
 
