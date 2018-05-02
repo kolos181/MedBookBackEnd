@@ -1,6 +1,11 @@
 package com.example.MedBook;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -9,16 +14,22 @@ import java.util.Date;
 
 @Entity
 @Table(name = "patient")
+@EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler", "createdAt", "updatedAt"},
+        allowGetters = true)
+public class Patient implements Serializable {
 
-public class Patient {
+    public Patient() {
+    }
 
-    public Patient(String firstName, String lastName, String sex, Date date, String state, String address) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Patient(String name, String sex, Date date, String state, String address, Date createdAt, Date updatedAt) {
+        this.name = name;
         this.sex = sex;
         this.date = date;
         this.state = state;
         this.address = address;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     @Id
@@ -26,11 +37,8 @@ public class Patient {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "sex")
     private String sex;
@@ -44,7 +52,16 @@ public class Patient {
     @Column(name = "address")
     private String address;
 
-//    @SequenceGenerator(name="seq-gen",sequenceName="MY_SEQ_GEN", initialValue=205, allocationSize=12)
+    @Column(nullable = true, /*updatable = false, */ name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
+    @Column(name = "updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
+    private Date updatedAt;
+
+    //    @SequenceGenerator(name="seq-gen",sequenceName="MY_SEQ_GEN", initialValue=205, allocationSize=12)
 //    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="seq-gen")
     public long getId() {
         return id;
@@ -54,20 +71,12 @@ public class Patient {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSex() {
@@ -98,7 +107,23 @@ public class Patient {
         return address;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

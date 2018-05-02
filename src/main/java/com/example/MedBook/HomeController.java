@@ -3,6 +3,8 @@ package com.example.MedBook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -23,14 +25,26 @@ public class HomeController {
         this.commentRepository = commentRepository;
     }
 
-    @PostMapping("/addPatient")
-    public Patient addPatient(@RequestBody Patient patient) {
+    @PostMapping("/api/addPatient")
+    public Patient addPatient(@Valid @RequestBody Patient patient) {
         return patientRepository.save(patient);
 
     }
 
-    @GetMapping("/getPatient")
-    public Optional<Patient> getPatient() {
-        return patientRepository.findById(1L);
+    @GetMapping("/api/patients")
+    public List<Patient> findPatients() {
+        List<Patient> patients = patientRepository.findAll();
+        return patients;
+    }
+
+    @GetMapping("/api/getPatient/{id}")
+    public Patient findById(@PathVariable(value = "id") Long patientId) {
+        Optional<Patient> patient = Optional.of(patientRepository.getOne(patientId));
+        return patient.get();
+    }
+
+    @DeleteMapping("/api/deletePatient/{id}")
+    public void deleteById(@PathVariable(value = "id") Long patientId) {
+        patientRepository.deleteById(patientId);
     }
 }
