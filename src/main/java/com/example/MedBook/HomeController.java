@@ -25,8 +25,8 @@ public class HomeController {
         this.commentRepository = commentRepository;
     }
 
-    @GetMapping("/")
-    public String frontPage() {
+    @RequestMapping("/")
+    public String index() {
         return "index";
     }
 
