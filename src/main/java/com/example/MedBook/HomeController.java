@@ -25,10 +25,6 @@ public class HomeController {
         this.commentRepository = commentRepository;
     }
 
-    @RequestMapping("/")
-    public String index() {
-        return "index";
-    }
 
     @PostMapping("/api/addPatient")
     public Patient addPatient(@Valid @RequestBody Patient patient) {
