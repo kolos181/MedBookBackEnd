@@ -25,6 +25,11 @@ public class HomeController {
         this.commentRepository = commentRepository;
     }
 
+    @GetMapping("/")
+    public String frontPage() {
+        return "index";
+    }
+
     @PostMapping("/api/addPatient")
     public Patient addPatient(@Valid @RequestBody Patient patient) {
         return patientRepository.save(patient);
