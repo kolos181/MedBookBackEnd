@@ -107,7 +107,7 @@ module.exports = ""
 /***/ "./src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav>\n  <a routerLink=\"api/patients\">Patients</a>\n  <a routerLink=\"api/getPatient/36\">getPatient</a>\n  <a routerLink=\"api/createPatient\">Add Patient</a>\n  <a routerLink=\"api/deletePatient/36\">Delete patient</a>\n</nav>\n<router-outlet></router-outlet>\n"
+module.exports = "<nav>\n  <a routerLink=\"api/patients\">Patients</a>\n  <a routerLink=\"api/createPatient\">Add Patient</a>\n</nav>\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
