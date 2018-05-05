@@ -22,10 +22,11 @@ public class Patient implements Serializable {
     public Patient() {
     }
 
-    public Patient(String name, String sex, Date date, String state, String address, Date createdAt, Date updatedAt) {
+    public Patient(String name, String sex, Date date, String country, String state, String address, Date createdAt, Date updatedAt) {
         this.name = name;
         this.sex = sex;
         this.date = date;
+        this.country = country;
         this.state = state;
         this.address = address;
         this.createdAt = createdAt;
@@ -45,6 +46,9 @@ public class Patient implements Serializable {
 
     @Column(name = "birth_date")
     private Date date;
+
+    @Column(name = "country")
+    private String country;
 
     @Column(name = "state")
     private String state;
@@ -93,6 +97,14 @@ public class Patient implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getState() {
