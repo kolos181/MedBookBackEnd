@@ -26,7 +26,6 @@ public class HomeController {
         this.commentRepository = commentRepository;
     }
 
-
     @PostMapping("/api/patients")
     public Patient addPatient(@Valid @RequestBody Patient patient) {
         return patientRepository.save(patient);
@@ -64,8 +63,9 @@ public class HomeController {
         return localPatient;
     }
 
-//    @PutMapping("/api/patients")
-//    public Patient updatePatientByJson(@Valid @RequestBody Patient patient) {
-//        return patientRepository.save(patient);
-//    }
+    @GetMapping("api/comments/{id}")
+    public List<Comments> findPatientComments(@PathVariable(value = "id") Long patientId) {
+        List<Comments> comments = Optional.of(commentRepository.findPatientWithComments(patientId)).get();
+        return comments;
+    }
 }

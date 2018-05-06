@@ -1,7 +1,11 @@
 package com.example.MedBook;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 
 /**
@@ -10,4 +14,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comments, Long> {
+    @Query("select c from Comments c inner join c.patient where c.patient.id = :patientId")
+    List<Comments> findPatientWithComments(@Param("patientId") Long patientId);
 }
