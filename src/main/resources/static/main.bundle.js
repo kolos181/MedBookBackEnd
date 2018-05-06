@@ -17,6 +17,24 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 
 /***/ }),
 
+/***/ "./src/app/Comments.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Comments; });
+/**
+ * Created by uuuu on 5/6/2018.
+ */
+var Comments = /** @class */ (function () {
+    function Comments() {
+    }
+    return Comments;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/Patient.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -70,12 +88,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 var routes = [
-    // { path: '', redirectTo: '/api/patients', pathMatch: 'full' },
     { path: 'api/patients', component: __WEBPACK_IMPORTED_MODULE_2__patients_patients_component__["a" /* PatientsComponent */] },
     { path: 'api/getPatient/:id', component: __WEBPACK_IMPORTED_MODULE_3__patient_detail_patient_detail_component__["a" /* PatientDetailComponent */] },
     { path: 'api/editPatient/:id', component: __WEBPACK_IMPORTED_MODULE_5__patient_edit_patient_edit_component__["a" /* PatientEditComponent */] },
     { path: 'api/createPatient', component: __WEBPACK_IMPORTED_MODULE_6__patient_add_patient_add_component__["a" /* PatientAddComponent */] },
-    { path: 'api/deletePatient/:id', component: __WEBPACK_IMPORTED_MODULE_6__patient_add_patient_add_component__["a" /* PatientAddComponent */] }
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
@@ -84,9 +100,9 @@ var AppRoutingModule = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             imports: [
                 __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
-                __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* RouterModule */].forRoot(routes)
+                __WEBPACK_IMPORTED_MODULE_4__angular_router__["c" /* RouterModule */].forRoot(routes)
             ],
-            exports: [__WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* RouterModule */]],
+            exports: [__WEBPACK_IMPORTED_MODULE_4__angular_router__["c" /* RouterModule */]],
             declarations: []
         })
     ], AppRoutingModule);
@@ -274,7 +290,8 @@ module.exports = "<div>\n  <label>patient name:\n    <input #patientName/>\n  </
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PatientAddComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__patient_service__ = __webpack_require__("./src/app/patient.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__patient_service__ = __webpack_require__("./src/app/patient.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -286,16 +303,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var PatientAddComponent = /** @class */ (function () {
-    function PatientAddComponent(patientsService) {
-        this.patientsService = patientsService;
+    function PatientAddComponent(patientService, router) {
+        this.patientService = patientService;
+        this.router = router;
     }
     PatientAddComponent.prototype.ngOnInit = function () {
     };
     PatientAddComponent.prototype.addPatient = function (patient) {
-        // patient.date = new Date(patient.date).getTime();
-        console.log(new Date(patient.date).getTime());
-        this.patientsService.addPatient(patient);
+        this.patientService.addPatient(patient);
+        this.getPatients();
+        this.router.navigate(['api/patients']);
+    };
+    PatientAddComponent.prototype.getPatients = function () {
+        var _this = this;
+        this.patientService.list().subscribe(function (patients) {
+            _this.patients = patients;
+        }, function (err) { return console.error(err); }, function () { return console.log('done loading patients'); });
     };
     PatientAddComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
@@ -303,7 +328,7 @@ var PatientAddComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/patient-add/patient-add.component.html"),
             styles: [__webpack_require__("./src/app/patient-add/patient-add.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__patient_service__["a" /* PatientService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__patient_service__["a" /* PatientService */], __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]])
     ], PatientAddComponent);
     return PatientAddComponent;
 }());
@@ -322,7 +347,7 @@ module.exports = ""
 /***/ "./src/app/patient-detail/patient-detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>{{patient.id}}</h1>\n<h1>{{patient.name}}</h1>\n<h1>{{patient.sex}}</h1>\n<h1>{{patient.state}}</h1>\n<h1>{{patient.date}}</h1>\n<button class=\"delete\" title=\"delete patient\"\n        (click)=\"deletePatient(patient)\">x\n</button>\n"
+module.exports = "<h1>{{patient.id}}</h1>\n<h1>{{patient.name}}</h1>\n<h1>{{patient.sex}}</h1>\n<h1>{{patient.country}}</h1>\n<h1>{{patient.state}}</h1>\n<h1>{{patient.address}}</h1>\n<h1>{{patient.date | date}}</h1>\n\n<li *ngFor=\"let comment of comments\">\n  <ul>{{comment.comment}}</ul>\n  <ul>{{comment.date}}</ul>\n</li>\n\n<div>\n  <label>Add comment:\n    <input #newComment />\n  </label>\n  <button (click)=\"addComment(newComment.value); newComment.value=''\">\n    add comment\n  </button>\n</div>\n\n<button class=\"delete\" title=\"delete patient\"\n        (click)=\"deletePatient(patient)\">x\n</button>\n<button class=\"edit\" title=\"edit patient\">\n  <a routerLink=\"../../editPatient/{{patient.id}}\">edit patient</a>\n</button>\n"
 
 /***/ }),
 
@@ -336,6 +361,7 @@ module.exports = "<h1>{{patient.id}}</h1>\n<h1>{{patient.name}}</h1>\n<h1>{{pati
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common__ = __webpack_require__("./node_modules/@angular/common/esm5/common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__patient_service__ = __webpack_require__("./src/app/patient.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Patient__ = __webpack_require__("./src/app/Patient.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Comments__ = __webpack_require__("./src/app/Comments.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -350,11 +376,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var PatientDetailComponent = /** @class */ (function () {
-    function PatientDetailComponent(patientService, route, location) {
+    function PatientDetailComponent(patientService, route, location, router) {
         this.patientService = patientService;
         this.route = route;
         this.location = location;
+        this.router = router;
     }
     PatientDetailComponent.prototype.ngOnInit = function () {
         this.getPatient();
@@ -364,9 +392,23 @@ var PatientDetailComponent = /** @class */ (function () {
         var id = +this.route.snapshot.paramMap.get('id');
         this.patientService.getPatient(id)
             .subscribe(function (patient) { return _this.patient = patient; });
+        this.patientService.getComments(id)
+            .subscribe(function (comments) { return _this.comments = comments; });
     };
     PatientDetailComponent.prototype.deletePatient = function (patient) {
         this.patientService.delete(patient).subscribe();
+    };
+    PatientDetailComponent.prototype.editPatient = function (patient) {
+        this.patientService.updatePatient(patient);
+        this.goBack();
+    };
+    PatientDetailComponent.prototype.addComment = function (comment) {
+        var localComment = new __WEBPACK_IMPORTED_MODULE_5__Comments__["a" /* Comments */]();
+        localComment.patient = this.patient;
+        localComment.comment = comment;
+        this.patientService.addComment(localComment);
+        this.getPatient();
+        this.router.navigate(['api/getPatient', this.patient.id]);
     };
     PatientDetailComponent.prototype.goBack = function () {
         this.location.back();
@@ -375,6 +417,10 @@ var PatientDetailComponent = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* Input */])(),
         __metadata("design:type", __WEBPACK_IMPORTED_MODULE_4__Patient__["a" /* Patient */])
     ], PatientDetailComponent.prototype, "patient", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* Input */])(),
+        __metadata("design:type", Array)
+    ], PatientDetailComponent.prototype, "comments", void 0);
     PatientDetailComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-patient-detail',
@@ -383,7 +429,8 @@ var PatientDetailComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__patient_service__["a" /* PatientService */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_common__["f" /* Location */]])
+            __WEBPACK_IMPORTED_MODULE_2__angular_common__["f" /* Location */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]])
     ], PatientDetailComponent);
     return PatientDetailComponent;
 }());
@@ -402,7 +449,7 @@ module.exports = ""
 /***/ "./src/app/patient-edit/patient-edit.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  patient-edit works!\n</p>\n"
+module.exports = "<!--put here some action that fills fields with information that is already there-->\n<div>\n  <label>patient name:\n    <input #patientName value=\"{{patient.name}}\"/>\n  </label>\n  <label>date of birth:\n    <input type=\"date\" #patientBirthDate value=\"{{patient.date | date:'yyyy-MM-dd'}}\"/>\n  </label>\n  <label>sex:\n    <input #patientSex value=\"{{patient.sex}}\"/>\n  </label>\n  <label>country:\n    <input #patientCountry value=\"{{patient.country}}\"/>\n  </label>\n  <label>state:\n    <input #patientState value=\"{{patient.state}}\"/>\n  </label>\n  <label>address:\n    <input #patientAddress  value=\"{{patient.address}}\"/>\n  </label>\n  <!-- (click) passes input value to editPatient() and then clears the input -->\n  <button (click)=\"editPatient({\n  name: patientName.value,\n   date: patientBirthDate.value,\n    sex: patientSex.value,\n     country: patientCountry.value,\n      state: patientState.value,\n       address: patientAddress.value\n       });\n\npatientName.value='';\npatientBirthDate.value='';\npatientSex.value='';\npatientCountry.value='';\npatientState.value='';\npatientAddress.value=''\">\n    edit\n  </button>\n</div>\n"
 
 /***/ }),
 
@@ -412,6 +459,9 @@ module.exports = "<p>\n  patient-edit works!\n</p>\n"
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PatientEditComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__patient_service__ = __webpack_require__("./src/app/patient.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Patient__ = __webpack_require__("./src/app/Patient.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -422,18 +472,44 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
+
 var PatientEditComponent = /** @class */ (function () {
-    function PatientEditComponent() {
+    function PatientEditComponent(route, patientService, router) {
+        this.route = route;
+        this.patientService = patientService;
+        this.router = router;
     }
     PatientEditComponent.prototype.ngOnInit = function () {
+        this.getPatient();
     };
+    PatientEditComponent.prototype.editPatient = function (patient) {
+        console.log(patient);
+        // adding id from injected patient, since we don't specify id in edit form
+        patient.id = this.patient.id;
+        this.patientService.updatePatient(patient);
+        this.router.navigate(["api/getPatient", patient.id]);
+    };
+    PatientEditComponent.prototype.getPatient = function () {
+        var _this = this;
+        var id = +this.route.snapshot.paramMap.get('id');
+        this.patientService.getPatient(id)
+            .subscribe(function (patient) { return _this.patient = patient; });
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* Input */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_3__Patient__["a" /* Patient */])
+    ], PatientEditComponent.prototype, "patient", void 0);
     PatientEditComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-patient-edit',
             template: __webpack_require__("./src/app/patient-edit/patient-edit.component.html"),
             styles: [__webpack_require__("./src/app/patient-edit/patient-edit.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
+            __WEBPACK_IMPORTED_MODULE_2__patient_service__["a" /* PatientService */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]])
     ], PatientEditComponent);
     return PatientEditComponent;
 }());
@@ -463,25 +539,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var PatientService = /** @class */ (function () {
-    // private readonly updateOneUrl = '/api/';
     function PatientService(http) {
         this.http = http;
-        this.listUrl = '/api/patients';
-        this.getOneUrl = '/api/getPatient';
-        this.addOneUrl = '/api/addPatient';
-        this.deleteOneUrl = '/api/deletePatient';
+        this.URL = '/api/patients';
+        this.COMMENTS = '/api/comments';
     }
     PatientService.prototype.list = function () {
-        return this.http.get(this.listUrl);
+        return this.http.get(this.URL);
     };
     PatientService.prototype.getPatient = function (id) {
-        return this.http.get(this.getOneUrl + "/" + id);
+        return this.http.get(this.URL + "/" + id);
     };
     PatientService.prototype.addPatient = function (patient) {
-        return this.http.post(this.addOneUrl, patient).subscribe();
+        return this.http.post(this.URL, patient).subscribe();
+    };
+    PatientService.prototype.updatePatient = function (patient) {
+        return this.http.put(this.URL + "/" + patient.id, patient).subscribe();
     };
     PatientService.prototype.delete = function (patient) {
-        return this.http.delete(this.deleteOneUrl + "/" + patient.id);
+        return this.http.delete(this.URL + "/" + patient.id);
+    };
+    PatientService.prototype.getComments = function (id) {
+        return this.http.get(this.COMMENTS + "/" + id);
+    };
+    PatientService.prototype.addComment = function (comment) {
+        return this.http.post(this.COMMENTS, comment).subscribe();
     };
     PatientService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
@@ -504,7 +586,7 @@ module.exports = ""
 /***/ "./src/app/patients/patients.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<li *ngFor=\"let patient of patients | async\">\n  <a routerLink=\"../../api/getPatient/{{patient.id}}\">\n    <ul>{{patient.id}}</ul>\n    <ul>{{patient.name}}</ul>\n    <ul>{{patient.sex}}</ul>\n    <ul>{{patient.state}}</ul>\n    <!--<ul>{{birthDate}}</ul>-->\n    <ul>{{patient.createdAt}}</ul>\n    <ul>{{patient.updatedAt}}</ul>\n  </a>\n  <button class=\"delete\" title=\"delete patient\"\n          (click)=\"deletePatient(patient)\">x\n  </button>\n\n</li>\n"
+module.exports = "<li *ngFor=\"let patient of patients\">\n  <a routerLink=\"../../api/getPatient/{{patient.id}}\" >\n    <ul>{{patient.id}}</ul>\n    <ul>{{patient.name}}</ul>\n    <ul>{{patient.sex}}</ul>\n    <ul>{{patient.state}}</ul>\n    <ul>birthDate: {{patient.date | date:'yyyy-MM-dd'}}</ul>\n    <ul>record created at: {{patient.createdAt | date:'yyyy-MM-dd'}}</ul>\n    <ul>record updated at: {{patient.updatedAt | date:'yyyy-MM-dd'}}</ul>\n  </a>\n  <button class=\"delete\" title=\"delete patient\"\n          (click)=\"deletePatient(patient)\">x\n  </button>\n\n</li>\n"
 
 /***/ }),
 
@@ -529,14 +611,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var PatientsComponent = /** @class */ (function () {
     function PatientsComponent(patientService) {
         this.patientService = patientService;
-        this.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        // this.date = this.patient.date.getDate() + ' ' + this.months[this.patient.date.getMonth()] + ', ' +
-        //   '' + this.patient.date.getFullYear();
     }
     PatientsComponent.prototype.getPatients = function () {
-        this.patients = this.patientService.list();
+        var _this = this;
+        this.patientService.list().subscribe(function (patients) {
+            _this.patients = patients;
+        }, function (err) { return console.error(err); }, function () { return console.log('done loading patients'); });
     };
     PatientsComponent.prototype.deletePatient = function (patient) {
+        this.patients = this.patients.filter(function (p) { return p !== patient; });
         this.patientService.delete(patient).subscribe();
     };
     PatientsComponent.prototype.ngOnInit = function () {

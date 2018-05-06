@@ -1,5 +1,7 @@
 package com.example.MedBook;
 
+import org.springframework.data.annotation.LastModifiedDate;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -23,6 +25,8 @@ public class Comments {
     private String comment;
 
     @Column(name = "creation_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
     private Date date;
 
     public long getId() {

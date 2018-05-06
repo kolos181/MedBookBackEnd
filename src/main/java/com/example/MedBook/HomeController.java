@@ -68,4 +68,9 @@ public class HomeController {
         List<Comments> comments = Optional.of(commentRepository.findPatientWithComments(patientId)).get();
         return comments;
     }
+
+    @PostMapping("/api/comments")
+    public Comments addComment(@Valid @RequestBody Comments comments) {
+        return commentRepository.save(comments);
+    }
 }
