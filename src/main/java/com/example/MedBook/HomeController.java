@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,20 +47,24 @@ public class HomeController {
         patientRepository.deleteById(patientId);
     }
 
-    @PutMapping("/api/patients/{id}")
-    public Patient updatePatientById(@PathVariable Long id, @Valid @RequestBody Patient patient) {
-        Patient localPatient = new Patient();
 
-        localPatient.setId(id);
-        localPatient.setName(patient.getName());
-        localPatient.setSex(patient.getSex());
-        localPatient.setState(patient.getState());
-        localPatient.setAddress(patient.getAddress());
-        localPatient.setDate(patient.getDate());
-        localPatient.setUpdatedAt(new Date());
-        patientRepository.save(localPatient);
-        return localPatient;
+    @DeleteMapping("/api/patients")
+    public void deleteAllPatients() {
+        patientRepository.deleteAll();
     }
+
+    @PutMapping("/api/patients")
+    public Patient addComment(@Valid @RequestBody Patient patient) {
+        return patientRepository.save(patient);
+    }
+
+    @GetMapping("/api/patients/search/{name}")
+    public List<Patient> findPatientsByName(@PathVariable(value = "name") String name) {
+
+        return this.patientRepository.findPatientsByNameIsStartingWithIgnoreCase(name);
+    }
+    /////////////////////////////////////////
+    //Comments controller part
 
     @GetMapping("api/comments/{id}")
     public List<Comments> findPatientComments(@PathVariable(value = "id") Long patientId) {
@@ -72,5 +75,15 @@ public class HomeController {
     @PostMapping("/api/comments")
     public Comments addComment(@Valid @RequestBody Comments comments) {
         return commentRepository.save(comments);
+    }
+
+    @DeleteMapping("/api/comments")
+    public void deleteAllComments() {
+        commentRepository.deleteAll();
+    }
+
+    @DeleteMapping("/api/comments/{id}")
+    void deleteComment(@PathVariable(value = "id") Long id) {
+        this.commentRepository.deleteById(id);
     }
 }

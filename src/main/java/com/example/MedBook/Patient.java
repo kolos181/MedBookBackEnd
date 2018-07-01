@@ -1,6 +1,7 @@
 package com.example.MedBook;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -35,7 +36,7 @@ public class Patient implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "patient_id")
     private long id;
 
     @Column(name = "name")
@@ -58,6 +59,7 @@ public class Patient implements Serializable {
 
     @Column(nullable = true, /*updatable = false, */ name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
     private Date createdAt;
 
     @Column(name = "updated_at")
