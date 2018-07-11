@@ -1,5 +1,7 @@
-package com.example.MedBook;
+package com.example.MedBook.restControllers;
 
+import com.example.MedBook.entities.Patient;
+import com.example.MedBook.repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,16 +15,13 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/")
-public class HomeController {
+public class PatientController {
 
     private final PatientRepository patientRepository;
 
-    private final CommentRepository commentRepository;
-
     @Autowired
-    public HomeController(PatientRepository patientRepository, CommentRepository commentRepository) {
+    public PatientController(PatientRepository patientRepository) {
         this.patientRepository = patientRepository;
-        this.commentRepository = commentRepository;
     }
 
     @PostMapping("/api/patients")
@@ -63,27 +62,5 @@ public class HomeController {
 
         return this.patientRepository.findPatientsByNameIsStartingWithIgnoreCase(name);
     }
-    /////////////////////////////////////////
-    //Comments controller part
 
-    @GetMapping("api/comments/{id}")
-    public List<Comments> findPatientComments(@PathVariable(value = "id") Long patientId) {
-        List<Comments> comments = Optional.of(commentRepository.findPatientWithComments(patientId)).get();
-        return comments;
-    }
-
-    @PostMapping("/api/comments")
-    public Comments addComment(@Valid @RequestBody Comments comments) {
-        return commentRepository.save(comments);
-    }
-
-    @DeleteMapping("/api/comments")
-    public void deleteAllComments() {
-        commentRepository.deleteAll();
-    }
-
-    @DeleteMapping("/api/comments/{id}")
-    void deleteComment(@PathVariable(value = "id") Long id) {
-        this.commentRepository.deleteById(id);
-    }
 }
